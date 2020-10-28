@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Juice Shop Cheat">
+    <meta property="og:description" content="Cheapo method to hack the juice shop challenge itself to unlock all challenges.">
+    <script src="./hashids.js"></script>
+    <title>Unlock Juice Shop</title>
+</head>
+
+<body>
+    <form id="form">
+        <label for="url">URL:</label>
+        <input type="text" id="url" name="url" value="http://localhost:3000">
+        <br>
+        <br>
+        <input type="submit" value="UNLOCK!">
+    </form>
+
+    <div>
+        Status:
+        <pre id="output"></pre>
+    </div>
+
+
+    <script>
+        const hashids = new Hashids.default("this is my salt", 60, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+
+        const value = hashids.encode(0)
+        const decoded = hashids.decode(value)
+
+        const form = /** @type {HTMLFormElement} */(document.querySelector("#form"))
+        var requestOptions = {
+            method: 'PUT',
+            redirect: 'follow'
+        };
+        form.addEventListener("submit", async (e) =>
+        {
+            e.preventDefault()
+            const challenges = 12 + 12 + 22 + 25 + 18 + 11
+            const url = /** @type {HTMLInputElement} */(document.querySelector("#url"))
+
+            for (let index = 1; index <= challenges; index++)
+            {
+                await unlockAsync(index)
+            }
+            await unlockAsync(999)
+
+            setOut("Done")
+        })
+
+        async function unlockAsync(number)
+        {
+            const encoded = hashids.encode(number)
+            const putting = url.value + "/rest/continue-code/apply/" + encoded
+            console.log("putting", putting)
+            setOut("Unlocking " + number)
+            await fetch(putting, requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+        }
+
+        const outpre = document.querySelector("pre")
+        function setOut(output)
+        {
+            outpre.innerHTML = output
+        }
+    </script>
+</body>
+
+</html>
