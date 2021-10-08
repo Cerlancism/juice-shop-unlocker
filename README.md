@@ -10,4 +10,4 @@ Completes all the challenges for [OWASP Juice Shop](https://github.com/juice-sho
 
 
 
-This this derived using the [solve-challenge-999](https://pwning.owasp-juice.shop/appendix/solutions.html#solve-challenge-999)
+This is derived using the [solve-challenge-999](https://pwning.owasp-juice.shop/appendix/solutions.html#solve-challenge-999)
